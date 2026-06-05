@@ -1,0 +1,13 @@
+torch>=1.12
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+scikit-learn
+mne
+braindecode
+moabb
+easydict
+pyyaml
+tqdm

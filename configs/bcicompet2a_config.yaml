@@ -1,0 +1,40 @@
+### Followed the Config style from ADFCNN by Tao et al.https://github.com/UM-Tao/ADFCNN-MI/ ###
+#### Path ####
+BASE_PATH: dataset/BCICIV_2a_gdf
+
+
+#### Setting step ####
+SEED: 42
+GPU_NUM: "0"
+num_workers: 0
+
+#### Training step ####
+EPOCHS: 300 
+batch_size: 32
+lr: 0.001
+window_length: 3
+warm_up: 100
+
+#### DA parameters ####
+alpha: 0.4 # alpha is for marginal loss
+beta: 1.4 # beta is for conditional loss
+
+
+#### Experiment variable ####
+task: "BCICompet2a"
+num_classes: 2
+num_channels: 22
+downsampling: 200
+
+num_subjects: 9
+sampling_rate: 250
+target_subject: 0
+is_test: False
+src_subject: 0
+tgt_subject: 0
+
+#### Etc ###
+model_name: "CS_UDA"
+model_type: "Selection"
+filter_bank: False
+

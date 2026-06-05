@@ -1,0 +1,50 @@
+# general
+dataset_name: "Cho2017"
+subject_ids: "all"
+max_epochs: 300
+is_test: False
+
+#### Setting step ####
+SEED: 42
+GPU_NUM: "0"
+num_workers: 0
+
+#### Training step ####
+EPOCHS: 300
+warm_up: 100
+batch_size: 32
+lr: 0.001
+
+weight_decay: 0.03
+
+# preprocessing
+preprocessing:
+  sfreq: 200
+  low_cut: 0.5
+  high_cut: 40
+  start: 0.0
+  stop:  0.0 # [0,3]s
+  remove_artifacts: False
+  z_scale: False
+  batch_size: 32
+
+
+#### Balancing Factors ####
+alpha: 0.7 # alpha is for marginal loss
+beta: 1.4 # beta is for conditional loss
+
+
+#### Experiment variable ####
+task: "Cho"
+num_classes: 2
+num_channels: 64
+downsampling: 200
+num_subjects: 52
+sampling_rate: 512
+target_subject: 0
+
+
+#### Etc ###
+model_name: "CS_UDA"
+model_type: "Selection"
+
