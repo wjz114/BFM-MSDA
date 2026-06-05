@@ -1,7 +1,7 @@
 # BFM-MSDA: BFM-guided Multi-Source Domain Adaptation with Cauchy–Schwarz (CS) alignment for Cross-Subject EEG Decoding
 
 Implementation of BFM-MSDA. The method combines foundation model guided source selection with feature-level and decision-level alignment via **Cauchy–Schwarz (CS) divergence** and **Conditional CS (CCS) divergence**.
-[abstract]!(https://github.com/wjz114/BFM-MSDA/graphical_Abstract.png)
+![Abstract](https://github.com/wjz114/BFM-MSDA/blob/main/graphical_Abstract.png)
 
 ## Environment Setup
 
