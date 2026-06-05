@@ -1,6 +1,7 @@
 # BFM-MSDA: BFM-guided Multi-Source Domain Adaptation with Cauchy–Schwarz (CS) alignment for Cross-Subject EEG Decoding
 
 Implementation of BFM-MSDA. The method combines foundation model guided source selection with feature-level and decision-level alignment via **Cauchy–Schwarz (CS) divergence** and **Conditional CS (CCS) divergence**.
+[abstract]!(https://github.com/wjz114/BFM-MSDA/graphical_Abstract.png)
 
 ## Environment Setup
 
@@ -24,6 +25,9 @@ dataset/BCICIV_2a_gdf/
 
 Cho2017 is loaded automatically via [MOABB](https://neurotechx.github.io/moabb/) / Braindecode on first use. No manual download is required if MOABB is configured correctly.
 
+## Source Selection Matrices
+
+We have uploaded the example pairwise distances output by LaBraM ([Jiang](https://github.com/935963004/LaBraM)) in /distances.
 
 ## Key Hyperparameters
 
