@@ -27,7 +27,7 @@ Cho2017 is loaded automatically via [MOABB](https://neurotechx.github.io/moabb/)
 
 ## Source Selection Matrices
 
-We have uploaded the example pairwise distances output by LaBraM ([Jiang](https://github.com/935963004/LaBraM)) in /distances.
+We have uploaded the example pairwise distances output by LaBraM ([Jiang et al., 2024](https://github.com/935963004/LaBraM)) in /distances.
 
 ## Key Hyperparameters
 
