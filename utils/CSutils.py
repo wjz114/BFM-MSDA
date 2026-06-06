@@ -1,3 +1,12 @@
+"""
+The core implementation of CS and CCS divergences
+
+refer to Domain Adaptation with Cauchy-Schwarz Divergence,UAI2024: 
+https://github.com/ywzcode/CS-adv
+
+
+"""
+
 # -*- coding: utf-8 -*-
 import torch
 from torch.autograd import Variable
@@ -131,97 +140,6 @@ def MKernel(x1, x2, sigmas=None, median_sigma=False):
     return K / len(sigmas)
 
 
-# def GaussianMatrix(X, Y, sigma):
-#     """Compute the Gaussian kernel matrix."""
-#     X = X.float()
-#     Y = Y.float()
-#     size1 = X.size()
-#     size2 = Y.size()
-#     G = (X * X).sum(-1)
-#     H = (Y * Y).sum(-1)
-#     Q = G.unsqueeze(-1).repeat(1, size2[0])
-#     R = H.unsqueeze(-1).T.repeat(size1[0], 1)
-#     H = Q + R - 2 * X @ (Y.T)
-#     H = torch.exp(-H / (2 * sigma ** 2))
-#     return H
-
-
-# CKB loss
-# def CondCSD(x1,x2,y1,y2,sigma =5, if_use_cdist=False, median_sigma=False): # conditional cs divergence
-#     # Input: N x d
-#
-#     # x1 = torch.tensor(x1)
-#     # x2 = torch.tensor(x2)
-#     # y1 = torch.tensor(y1)
-#     # y2 = torch.tensor(y2)
-#
-#     K1 = GaussianMatrix(x1,x1,sigma, if_use_cdist, median_sigma) # a lot of 0 (1560)
-#     K2 = GaussianMatrix(x2,x2,sigma, if_use_cdist, median_sigma) # 1560 0
-#
-#     L1 = GaussianMatrix(y1,y1,sigma, if_use_cdist, median_sigma)
-#     L2 = GaussianMatrix(y2,y2,sigma, if_use_cdist, median_sigma)
-#
-#     #print(x1.shape, x2.shape, y1.shape, y2.shape, K1.shape, K2.shape, L1.shape, L2.shape)
-#
-#     K12 = GaussianMatrix(x1,x2,sigma, if_use_cdist, median_sigma) # nan happens  1600 0 ---> all zeros --> makes the later part nan
-#     L12 = GaussianMatrix(y1,y2,sigma, if_use_cdist, median_sigma) #
-#
-#     K21 = GaussianMatrix(x2,x1,sigma, if_use_cdist, median_sigma) # nan happens  1600 0
-#     L21 = GaussianMatrix(y2,y1,sigma, if_use_cdist, median_sigma)
-#
-#     # K1 = MK(x1, x1)
-#     # K2 = MK(x2, x2)
-#     # L1 = MK(y1, y1)
-#     # L2 = MK(y2, y2)
-#     # K12 = MK(x1, x2)
-#     # L12 = MK(y1, y2)
-#     # K21 = MK(x2, x1)
-#     # L21 = MK(y2, y1)
-#
-#     H1 = K1*L1 # 1560 0
-#     self_term1 = (H1.sum(-1)/((K1.sum(-1))**2)).sum(0) #
-#
-#     H2 = K2*L2
-#     self_term2 = (H2.sum(-1)/((K2.sum(-1))**2)).sum(0)
-#
-#     ##################################DEBUG#################################################
-#     H3 = K12*L12
-#     cross_term1 = (H3.sum(-1)/((K1.sum(-1))*(K12.sum(-1)))).sum(0) # # nan first happens
-#     ##################################DEBUG################################################
-#     H4 = K21*L21
-#     cross_term2 = (H4.sum(-1)/((K2.sum(-1))*(K21.sum(-1)))).sum(0)
-#
-#     cs1 = -2*torch.log(cross_term1) + torch.log(self_term1) + torch.log(self_term2)
-#     cs2 = -2*torch.log(cross_term2) + torch.log(self_term1) + torch.log(self_term2)
-#
-#
-#     return ((cs1+cs2)/2)
-#
-# def CS(x1,x2,sigma = 5, if_use_cdist=False, median_sigma=False): # conditional cs divergence
-#     #x1 = torch.tensor(x1)
-#     #x2 = torch.tensor(x2)
-#
-#     K1 = GaussianMatrix(x1,x1,sigma, if_use_cdist, median_sigma)
-#     K2 = GaussianMatrix(x2,x2,sigma, if_use_cdist, median_sigma)
-#
-#     K12 = GaussianMatrix(x1,x2,sigma, if_use_cdist, median_sigma)
-#     # K1 = MK(x1, x1)
-#     # K2 = MK(x2, x2)
-#     # K12 = MK(x1, x2)
-#
-#     dim1 = K1.shape[0]
-#     self_term1 = K1.sum()/(dim1**2)
-#
-#     dim2 = K2.shape[0]
-#     self_term2 = K2.sum()/(dim2**2)
-#
-#     cross_term = K12.sum()/(dim1*dim2)
-#
-#     cs = -2*torch.log(cross_term) + torch.log(self_term1) + torch.log(self_term2)
-#
-#     return cs
-
-
 def CondCSD(x1, x2, y1, y2, sigmas=[5,6,7,8],  median_sigma=False):
     K1 = MKernel(x1, x1, sigmas, median_sigma)
     K2 = MKernel(x2, x2, sigmas, median_sigma)
@@ -282,18 +200,6 @@ def JointKDE_KL(
     The joint density over latent features and predicted probabilities is
     approximated with a separable Gaussian kernel K((z, ŷ), (z', ŷ')) = Kz(z, z') * Ky(ŷ, ŷ').
 
-    Args:
-        z_source (Tensor): Source latent features of shape [N_s, d].
-        z_target (Tensor): Target latent features of shape [N_t, d].
-        yhat_source (Tensor): Source predicted probabilities of shape [N_s, K].
-        yhat_target (Tensor): Target predicted probabilities of shape [N_t, K].
-        sigmas_z (List[float] | None): Bandwidths for feature kernel. Defaults to [5,6,7,8] when None.
-        sigmas_y (List[float] | None): Bandwidths for label kernel. Defaults to [5,6,7,8] when None.
-        median_sigma (bool): If True, use median heuristic to scale bandwidths.
-        eps (float): Small constant for numerical stability inside logs.
-
-    Returns:
-        Tensor: Scalar tensor estimating KL(p_s || q_t) on the current mini-batch.
     """
     # Default bandwidth sets mirror CS/MKernel defaults when not provided
     if sigmas_z is None:
