@@ -1,10 +1,10 @@
 # BFM-MSDA: BFM-guided Multi-Source Domain Adaptation with Cauchy–Schwarz (CS) alignment for Cross-Subject EEG Decoding
 
-Implementation of BFM-MSDA. The method combines foundation model guided source selection with feature-level and decision-level alignment via **Cauchy–Schwarz (CS) divergence** and **Conditional CS (CCS) divergence**.
+Implementation of BFM-MSDA. The method combines foundation-model-guided source selection with feature-level and decision-level alignment via the **Cauchy–Schwarz (CS) divergence** and the **Conditional CS (CCS) divergence**.
 
 ![Abstract](https://github.com/wjz114/BFM-MSDA/blob/main/graphical_Abstract.png)
 
-The core implementaion of Cauchy–Schwarz (CS) and CCS divergences is in [CSutils.py](https://github.com/wjz114/BFM-MSDA/blob/main/utils/CSutils.py)
+The core implementations of Cauchy–Schwarz (CS) and CCS divergences are in [CSutils.py](https://github.com/wjz114/BFM-MSDA/blob/main/utils/CSutils.py)
 
 
 ## Environment Setup
@@ -48,7 +48,7 @@ Default settings are in `configs/bcicompet2a_config.yaml`:
 
 ## Citation
 
-Hope this code can be useful. I would appreciate you citing us (To be updated upon publication).
+Hope this code can be useful. We would appreciate you citing us (To be updated upon publication).
 
 @misc{wu2026brainfoundationmodelmeets,
       title={When Brain Foundation Model Meets Cauchy-Schwarz Divergence: A New Framework for Cross-Subject Motor Imagery Decoding}, 
